@@ -966,7 +966,7 @@ ft.run(main)
 
 ##Ejecucion del codigo con datos correctos 
 <img width="1918" height="1017" alt="image" src="https://github.com/user-attachments/assets/bd5cac44-f258-4c66-a5c0-49c2d6aeb1cd" />
-<img width="1918" height="991" alt="image" src="https://github.com/user-attachments/assets/8225601b-2e83-45f3-8be6-7b3ccdcda4ec" />
+
 
 ##Ejecucion del codigo con datos incorrectos
 <img width="1267" height="1008" alt="image" src="https://github.com/user-attachments/assets/663309e4-a8c2-4c24-bd5b-8e5175e07a99" />
