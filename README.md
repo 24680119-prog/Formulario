@@ -246,3 +246,112 @@ Actualiza visualmente el campo para que el cambio de color se refleje en pantall
 La función devuelve True si el campo es válido o False si no lo es.
 Esto permite que otras partes del programa (como el botón Enviar) sepan si pueden continuar o no.
 
+## Campos 
+En esta sección del código se crean todos los campos que forman el formulario de registro. Se utilizan diferentes componentes de Flet como TextField, Dropdown y RadioGroup para permitir al usuario ingresar o seleccionar información. Además, se implementa validación en tiempo real mediante el evento on_change, el cual llama a la función validar_campo() cada vez que el usuario escribe. Esto permite verificar que los datos cumplan con el formato correcto antes de enviarlos.
+
+**Campos de texto (TextField)**
+
+Los siguientes elementos son objetos TextField, que permiten al usuario escribir información.
+
+Cada campo tiene:
+-label → Es el texto que aparece como nombre del campo.
+
+-on_change → Evento que se ejecuta cada vez que el usuario escribe algo.
+
+-lambda e: → Función anónima que llama a validar_campo() para validar el contenido en tiempo real.
+
+**Ejemplo de codigo**
+```python
+  txt_nombre = ft.TextField(label="Nombre *", on_change=lambda e: validar_campo(txt_nombre, "texto"))
+```
+Se crea un campo de texto para el nombre.
+-El asterisco (*) indica que es obligatorio.
+
+-Cada vez que el usuario escribe, se valida que solo contenga letras.
+
+**Numero de control**
+```python
+   txt_control = ft.TextField(label="Número de control *", on_change=lambda e: validar_campo(txt_control, "numeros"))
+```
+-Solo permite números.
+-Se valida automáticamente mientras el usuario escribe.
+
+**Email**
+```python
+  txt_email = ft.TextField(label="Email *", on_change=lambda e: validar_campo(txt_email, "correo"))
+```
+-Se valida que tenga formato correcto de correo electronico.
+
+**Telefono**
+```python
+    txt_telefono = ft.TextField(label="Número telefónico *", on_change=lambda e: validar_campo(txt_telefono, "numeros", 10))
+```
+-Solo acepta numeros y deben ser exactamente 10 numeros.
+
+**Codigo postal**
+```python
+  txt_cp = ft.TextField(label="Código postal *", on_change=lambda e: validar_campo(txt_cp, "numeros", 5))
+```
+-Solo acepta numeros y deben ser 5.
+
+## Campos desplegables 
+es un elemento gráfico que muestra una lista de opciones para que el usuario seleccione una sola. Se utiliza para controlar el tipo de datos ingresados y mejorar la organización del formulario.
+
+**Carrera**
+
+```python
+    dd_carrera = ft.Dropdown(
+        label="Carrera *",
+        options=[
+            ft.dropdown.Option("Ingeniería en Sistemas"),
+            ft.dropdown.Option("Ingeniería Civil"),
+            ft.dropdown.Option("Ingeniería Industrial"),
+        ]
+    )
+
+```
+Pwermite elegir una carrera y solo se puede seleccionar una opcion.
+
+**Semestre**
+
+```python
+    dd_semestre = ft.Dropdown(
+        label="Semestre *",
+        options=[ft.dropdown.Option(str(i)) for i in range(1, 7)]
+    )
+```
+Aquí se está usando algo llamado comprensión de lista (list comprehension).
+
+
+**range(1, 7)**
+
+Genera números desde el 1 hasta el 6.
+
+En Python el 7 no se incluye, por eso genera:
+1, 2, 3, 4, 5, 6
+
+**for i in range(1, 7)**
+
+Esto significa:
+“Para cada número generado, guárdalo en la variable i”.
+
+**str(i)**
+
+Convierte el número en texto, esto es necesario porque las opciones del Dropdown deben ser texto.
+
+Por lo tanto el programa automáticamente crea estas opciones en lugar de escribirlas manualmente una por una.
+
+-“1”
+
+-“2”
+
+-“3”
+
+-“4”
+
+-“5”
+
+-“6”
+
+
+
