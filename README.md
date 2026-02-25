@@ -416,4 +416,150 @@ Evitando que el usuario escriba caracteres incorrectos.
     txt_telefono_emergencia = ft.TextField(label="Teléfono de contacto de emergencia *", on_change=lambda e: validar_campo(txt_telefono_emergencia, "numeros", 10))
     txt_seguridad_social = ft.TextField(label="Número de Seguridad Social (11 dígitos) *", on_change=lambda e: validar_campo(txt_seguridad_social, "numeros", 11))
 ```
+## Botones enviar
+La función enviar_click valida todos los campos del formulario al presionar el botón Enviar. Si existen errores, muestra un mensaje en rojo indicando qué debe corregirse. Si todos los datos son correctos, crea un nuevo registro, lo agrega a la sección de registros guardados, muestra un mensaje de éxito y limpia el formulario para permitir un nuevo ingreso de datos.
+
+Se crea una lista vacia llamada errores, su funcion es almacenar todos los mensajes de error en caso de que algun campo este mal.   
+```python
+ def enviar_click(e):
+        errores = []
+```
+Si devuelve False, significa que el campo es inválido, entonces se agrega un mensaje a la lista errores.
+Esto se hace con todos los campos obligatorios:
+-Nombre
+
+-Número de control
+
+-Email
+
+-Teléfono
+
+-Código postal
+
+-Carrera
+
+-Semestre etc.
+```python
+		if not validar_campo(txt_nombre, "texto"):
+            errores.append("Nombre inválido")
+        if not validar_campo(txt_control, "numeros"):
+            errores.append("Número de control inválido")
+        if not validar_campo(txt_email, "correo"):
+            errores.append("Email inválido")
+        if not validar_campo(txt_telefono, "numeros", 10):
+            errores.append("Teléfono inválido")
+        if not validar_campo(txt_cp, "numeros", 5):
+            errores.append("Código postal inválido")
+        if not dd_carrera.value:
+            errores.append("Selecciona la carrera")
+        if not dd_semestre.value:
+            errores.append("Selecciona el semestre")
+        if not dd_ciudad.value:
+            errores.append("Selecciona la ciudad")
+        if not radio_genero.value:
+            errores.append("Selecciona el género")
+        if not dd_tipo_sangre.value:
+            errores.append("Selecciona tipo de sangre")
+        if not validar_campo(txt_contacto_emergencia, "texto"):
+            errores.append("Contacto inválido")
+        if not validar_campo(txt_telefono_emergencia, "numeros", 10):
+            errores.append("Teléfono emergencia inválido")
+        if not validar_campo(txt_seguridad_social, "numeros", 11):
+            errores.append("NSS inválido")
+
+```
+## Si hay errores 
+Cuando el usuario presiona el botón Enviar, el programa valida todos los campos del formulario si alguno está incorrecto o vacío, el sistema guarda los mensajes correspondientes en la lista llamada errores. La condición if errores significa que si la lista no está vacía (es decir, contiene al menos un error), entonces el programa ejecuta el bloque de código que muestra una advertencia.
+En ese caso, se crea un componente llamado SnackBar, que es una notificación emergente que aparece en la parte inferior de la pantalla.
+
+Esta notificación:
+-Muestra todos los errores encontrados.
+
+-Une los mensajes usando un salto de línea (\n) para que aparezcan uno debajo del otro.
+
+-Tiene fondo rojo para indicar que hay un problema.
+
+-Permanece visible durante 4 segundos
+
+-Se abre automáticamente (open=True).
+El objetivo de esta parte del código es informar al usuario qué campos debe corregir antes de poder guardar el registro.
+
+```python
+        if errores:
+            page.snack_bar = ft.SnackBar(
+                ft.Text("\n".join(errores)),
+                bgcolor=ft.Colors.RED,
+                open=True,
+                duration=4000
+            )
+```
+
+Cuando no existen errores en el formulario, el programa crea una nueva columna que contiene todos los datos ingresados por el usuario y los organiza en forma vertical. Esta estructura representa el registro del estudiante que posteriormente será guardado y mostrado en la sección de registros.
+
+Aquí se construye un nuevo bloque visual usando ft.Column, una Column organiza los elementos de manera vertical, es decir, uno debajo del otro.
+```python
+        else:
+            registro = ft.Column(
+                [
+```
+Dentro de la columna se agregan varios elementos ft.Text, que muestran la información ingresada por el usuario.
+
+ft.Text() crea un texto en pantalla.
+
+-f"..." es una cadena formateada.
+
+-{txt_nombre.value} inserta el valor que el usuario escribió en el campo.
+
+-weight=ft.FontWeight.BOLD hace que el nombre aparezca en negrita.
+
+Lo mismo se hace con:
+
+-Número de control
+
+-Email
+
+-Carrera
+
+-Semestre
+
+-Ciudad
+
+-Género
+
+-Tipo de sangre
+
+```python
+                    ft.Text(f"Nombre: {txt_nombre.value}", weight=ft.FontWeight.BOLD),
+                    ft.Text(f"Control: {txt_control.value}"),
+                    ft.Text(f"Email: {txt_email.value}"),
+                    ft.Text(f"Carrera: {dd_carrera.value}"),
+                    ft.Text(f"Semestre: {dd_semestre.value}"),
+                    ft.Text(f"Ciudad: {dd_ciudad.value}"),
+                    ft.Text(f"Género: {radio_genero.value}"),
+                    ft.Text(f"Tipo de Sangre: {dd_tipo_sangre.value}"),
+                    ft.Divider()
+                ],
+                spacing=3
+            )
+```
+## Agregar registro a la lista de guardadosv
+
+Después de crear el nuevo registro con los datos del estudiante, este bloque se encarga de agregarlo visualmente a la sección de registros guardados.
+
+-datos_guardados es la columna donde se almacenan todos los registros.
+
+-.controls representa la lista interna de elementos que contiene esa columna.
+
+-.append(registro) agrega el nuevo registro al final de esa lista.
+
+
+```python
+            datos_guardados.controls.append(registro)
+            datos_guardados.update()
+```
+
+## Mensaje de confirmacion 
+
+
+
 
