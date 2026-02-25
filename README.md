@@ -560,6 +560,417 @@ Después de crear el nuevo registro con los datos del estudiante, este bloque se
 
 ## Mensaje de confirmacion 
 
+Este bloque se ejecuta cuando no hay errores en el formulario y el registro se guardó correctamente, su función es mostrar una notificación visual al usuario confirmando que la información fue almacenada con éxito.
+
+**page.snack_bar = ft.SnackBar(...)**
+
+Aquí se crea un componente llamado SnackBar y se asigna a la página, el SnackBar es una notificación emergente que aparece temporalmente en la parte inferior de la pantalla.
+
+**ft.Text("Registro guardado correctamente")**
+
+Es el mensaje que verá el usuario ndicando que el formulario fue enviado y almacenado sin problemas.
+
+
+ **bgcolor=ft.Colors.GREEN**
+
+Define el color de fondo del mensaje en este caso es verde, lo cual representa éxito o confirmación positiva.
+
+
+**open=True**
+
+Indica que el mensaje debe mostrarse inmediatamente en pantalla, si no se coloca esta propiedad en True, el mensaje no aparecería.
+```python
+            page.snack_bar = ft.SnackBar(
+                ft.Text("Registro guardado correctamente"),
+                bgcolor=ft.Colors.GREEN,
+                open=True
+            )
+```
+## Limpieza del formulario y creacion del boton
+Esta sección del código se encarga de reiniciar todos los campos del formulario después de guardar correctamente un registro. Utiliza un ciclo para limpiar los campos de texto, reinicia los Dropdown y RadioGroup asignando None, actualiza la interfaz con page.update() y define el botón “Enviar”, el cual ejecuta la función principal de validación y guardado.
+
+Aquí se utiliza un ciclo for para recorrer una lista de campos de texto (TextField).
+
+1.-Se crea una lista que contiene todos los campos que deben limpiarse.
+
+2.-El ciclo for toma cada campo uno por uno.
+
+3.-campo.value = "" asigna una cadena vacía.
+
+4.-Esto borra el contenido que el usuario había escrito.
+
+En lugar de limpiar cada campo manualmente uno por uno, se hace de manera más eficiente usando un ciclo.
+```python
+            for campo in [
+                txt_nombre, txt_control, txt_email, txt_telefono, txt_cp,
+                txt_alergias, txt_contacto_emergencia,
+                txt_telefono_emergencia, txt_seguridad_social
+            ]:
+                campo.value = ""
+```
+## Reinicio de los campos desplegables y botones de seleccion 
+
+Se reinician los campos que no son de texto:
+-Dropdown (listas desplegables)
+
+-RadioGroup (botones de selección)
+
+Asignar None significa que no hay ninguna opción seleccionada , esto hace que el formulario vuelva a su estado inicial.
+```python
+            dd_carrera.value = None
+            dd_semestre.value = None
+            dd_ciudad.value = None
+            radio_genero.value = None
+            dd_tipo_sangre.value = None
+```
+
+## Creacion del boton enviar 
+Se crea el botón visible en la interfaz.
+-"Enviar" → Es el texto que aparece en el botón.
+
+-on_click=enviar_click → Indica que cuando el usuario haga clic, se ejecutará la función enviar_click
+```python
+    btn_enviar = ft.ElevatedButton("Enviar", on_click=enviar_click)
+```
+## Diseño final de la interfaz
+Se encarga de construir el diseño final de la interfaz y ejecutar la aplicación. Se utiliza page.add() para agregar todos los elementos visuales a la página. Dentro de esta función se crea una fila (Row) que divide la pantalla en dos secciones horizontales.
+
+En la primera sección se coloca el formulario completo dentro de un contenedor con un ListView, lo que permite organizar los campos uno debajo del otro y agregar desplazamiento si el contenido es largo. En la segunda sección se coloca otro contenedor que muestra el título de registros guardados y la lista donde se agregan los estudiantes registrados.
+
+La propiedad expand se utiliza para distribuir el espacio, haciendo que el formulario ocupe más espacio que la sección de registros. Finalmente, ft.run(main) es la instrucción que ejecuta la función principal y pone en funcionamiento la aplicación.
+
+**page.add(...)**
+Agrega todos los elementos visibles a la página, sin esta línea, nada aparecería en la pantalla.
+
+ **ft.Row([...], expand=True)**
+Organiza el contenido en forma horizontal (de izquierda a derecha).
+
+Divide la pantalla en dos secciones:
+-Formulario (izquierda)
+-Registros guardados (derecha)
+
+expand=True hace que ocupe todo el espacio disponible.
+
+**Primer ft.Container(..., expand=2)**
+Es la “caja” que contiene todo el formulario.
+
+**ft.ListView(...)**
+
+Organiza todos los campos uno debajo del otro y permite desplazamiento (scroll) si el formulario es largo.
+
+**Segundo ft.Container(..., expand=1)**
+
+Contiene la sección de registros guardados.
+
+**ft.Column([...])**
+
+Organiza verticalmente:
+-El título de registros
+
+-La lista donde se guardan los estudiantes
+
+**ft.run(main)**
+
+Ejecuta la aplicación , sin esta línea, el programa no se abriría.
+
+```python
+   page.add(
+        ft.Row(
+            [
+                ft.Container(
+                    content=ft.ListView(
+                        controls=[
+                            ft.Text("Datos Personales", weight=ft.FontWeight.BOLD, size=18),
+                            txt_nombre,
+                            txt_control,
+                            txt_email,
+                            txt_telefono,
+                            txt_cp,
+                            dd_carrera,
+                            dd_semestre,
+                            dd_ciudad,
+                            ft.Text("Género"),
+                            radio_genero,
+                            ft.Divider(),
+                            ft.Text("Datos de Salud y Emergencia", weight=ft.FontWeight.BOLD, size=18),
+                            dd_tipo_sangre,
+                            txt_alergias,
+                            txt_contacto_emergencia,
+                            txt_telefono_emergencia,
+                            txt_seguridad_social,
+                            btn_enviar
+                        ],
+                        spacing=12,
+                        expand=True
+                    ),
+                    expand=2,
+                    bgcolor=ft.Colors.TRANSPARENT
+                ),
+                ft.Container(
+                    content=ft.Column(
+                        [
+                            titulo_registros,
+                            datos_guardados
+                        ],
+                        spacing=10
+                    ),
+                    expand=1,
+                    bgcolor=ft.Colors.TRANSPARENT
+                )
+            ],
+            expand=True
+        )
+    )
+
+
+ft.run(main)
+
+```
+
+
+##Codigo 
+```python
+
+import flet as ft
+import re
+
+def main(page: ft.Page):
+    page.title = "Formulario Completo - Registro Estudiantes"
+    page.bgcolor = "#FDFBE3"
+    page.padding = 20
+    page.theme_mode = ft.ThemeMode.LIGHT
+
+    # ---------------- SECCIÓN REGISTROS ----------------
+    datos_guardados = ft.Column(
+        spacing=10,
+        scroll=ft.ScrollMode.AUTO
+    )
+
+    titulo_registros = ft.Text(
+        "Registros Guardados",
+        size=18,
+        weight=ft.FontWeight.BOLD
+    )
+
+    # ---------------- FUNCIÓN VALIDACIÓN ----------------
+    def validar_campo(campo, tipo="texto", longitud=None):
+        valor = campo.value.strip()
+        valido = True
+
+        if tipo == "texto":
+            if not valor or not re.match(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$", valor):
+                valido = False
+
+        elif tipo == "numeros":
+            if not valor.isdigit() or (longitud and len(valor) != longitud):
+                valido = False
+
+        elif tipo == "correo":
+            if not re.match(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$", valor):
+                valido = False
+
+        elif tipo == "alergias":
+            if valor and not re.match(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ ,]*$", valor):
+                valido = False
+
+        campo.border_color = ft.Colors.GREEN if valido else ft.Colors.RED
+        campo.update()
+        return valido
+
+    # ---------------- CAMPOS ----------------
+    txt_nombre = ft.TextField(label="Nombre *", on_change=lambda e: validar_campo(txt_nombre, "texto"))
+    txt_control = ft.TextField(label="Número de control *", on_change=lambda e: validar_campo(txt_control, "numeros"))
+    txt_email = ft.TextField(label="Email *", on_change=lambda e: validar_campo(txt_email, "correo"))
+    txt_telefono = ft.TextField(label="Número telefónico *", on_change=lambda e: validar_campo(txt_telefono, "numeros", 10))
+    txt_cp = ft.TextField(label="Código postal *", on_change=lambda e: validar_campo(txt_cp, "numeros", 5))
+
+    dd_carrera = ft.Dropdown(
+        label="Carrera *",
+        options=[
+            ft.dropdown.Option("Ingeniería en Sistemas"),
+            ft.dropdown.Option("Ingeniería Civil"),
+            ft.dropdown.Option("Ingeniería Industrial"),
+        ]
+    )
+
+    dd_semestre = ft.Dropdown(
+        label="Semestre *",
+        options=[ft.dropdown.Option(str(i)) for i in range(1, 7)]
+    )
+
+    dd_ciudad = ft.Dropdown(
+        label="Ciudad donde vive *",
+        options=[
+            ft.dropdown.Option("Ciudad de México"),
+            ft.dropdown.Option("Guadalajara"),
+            ft.dropdown.Option("Monterrey"),
+            ft.dropdown.Option("Otras")
+        ]
+    )
+
+    radio_genero = ft.RadioGroup(
+        content=ft.Column([
+            ft.Radio(label="Masculino", value="Masculino"),
+            ft.Radio(label="Femenino", value="Femenino"),
+        ])
+    )
+
+    dd_tipo_sangre = ft.Dropdown(
+        label="Tipo de sangre *",
+        options=[
+            ft.dropdown.Option("A+"), ft.dropdown.Option("A-"),
+            ft.dropdown.Option("B+"), ft.dropdown.Option("B-"),
+            ft.dropdown.Option("O+"), ft.dropdown.Option("O-"),
+            ft.dropdown.Option("AB+"), ft.dropdown.Option("AB-")
+        ]
+    )
+
+    txt_alergias = ft.TextField(label="Alergias o padecimientos", on_change=lambda e: validar_campo(txt_alergias, "alergias"))
+    txt_contacto_emergencia = ft.TextField(label="Nombre de contacto de emergencia *", on_change=lambda e: validar_campo(txt_contacto_emergencia, "texto"))
+    txt_telefono_emergencia = ft.TextField(label="Teléfono de contacto de emergencia *", on_change=lambda e: validar_campo(txt_telefono_emergencia, "numeros", 10))
+    txt_seguridad_social = ft.TextField(label="Número de Seguridad Social (11 dígitos) *", on_change=lambda e: validar_campo(txt_seguridad_social, "numeros", 11))
+
+    # ---------------- BOTÓN ENVIAR ----------------
+    def enviar_click(e):
+        errores = []
+
+        if not validar_campo(txt_nombre, "texto"):
+            errores.append("Nombre inválido")
+        if not validar_campo(txt_control, "numeros"):
+            errores.append("Número de control inválido")
+        if not validar_campo(txt_email, "correo"):
+            errores.append("Email inválido")
+        if not validar_campo(txt_telefono, "numeros", 10):
+            errores.append("Teléfono inválido")
+        if not validar_campo(txt_cp, "numeros", 5):
+            errores.append("Código postal inválido")
+        if not dd_carrera.value:
+            errores.append("Selecciona la carrera")
+        if not dd_semestre.value:
+            errores.append("Selecciona el semestre")
+        if not dd_ciudad.value:
+            errores.append("Selecciona la ciudad")
+        if not radio_genero.value:
+            errores.append("Selecciona el género")
+        if not dd_tipo_sangre.value:
+            errores.append("Selecciona tipo de sangre")
+        if not validar_campo(txt_contacto_emergencia, "texto"):
+            errores.append("Contacto inválido")
+        if not validar_campo(txt_telefono_emergencia, "numeros", 10):
+            errores.append("Teléfono emergencia inválido")
+        if not validar_campo(txt_seguridad_social, "numeros", 11):
+            errores.append("NSS inválido")
+
+        if errores:
+            page.snack_bar = ft.SnackBar(
+                ft.Text("\n".join(errores)),
+                bgcolor=ft.Colors.RED,
+                open=True,
+                duration=4000
+            )
+        else:
+            registro = ft.Column(
+                [
+                    ft.Text(f"Nombre: {txt_nombre.value}", weight=ft.FontWeight.BOLD),
+                    ft.Text(f"Control: {txt_control.value}"),
+                    ft.Text(f"Email: {txt_email.value}"),
+                    ft.Text(f"Carrera: {dd_carrera.value}"),
+                    ft.Text(f"Semestre: {dd_semestre.value}"),
+                    ft.Text(f"Ciudad: {dd_ciudad.value}"),
+                    ft.Text(f"Género: {radio_genero.value}"),
+                    ft.Text(f"Tipo de Sangre: {dd_tipo_sangre.value}"),
+                    ft.Divider()
+                ],
+                spacing=3
+            )
+
+            datos_guardados.controls.append(registro)
+            datos_guardados.update()
+
+            page.snack_bar = ft.SnackBar(
+                ft.Text("Registro guardado correctamente"),
+                bgcolor=ft.Colors.GREEN,
+                open=True
+            )
+
+            for campo in [
+                txt_nombre, txt_control, txt_email, txt_telefono, txt_cp,
+                txt_alergias, txt_contacto_emergencia,
+                txt_telefono_emergencia, txt_seguridad_social
+            ]:
+                campo.value = ""
+
+            dd_carrera.value = None
+            dd_semestre.value = None
+            dd_ciudad.value = None
+            radio_genero.value = None
+            dd_tipo_sangre.value = None
+
+        page.update()
+
+    btn_enviar = ft.ElevatedButton("Enviar", on_click=enviar_click)
+
+    # ---------------- DISEÑO FINAL ----------------
+    page.add(
+        ft.Row(
+            [
+                ft.Container(
+                    content=ft.ListView(
+                        controls=[
+                            ft.Text("Datos Personales", weight=ft.FontWeight.BOLD, size=18),
+                            txt_nombre,
+                            txt_control,
+                            txt_email,
+                            txt_telefono,
+                            txt_cp,
+                            dd_carrera,
+                            dd_semestre,
+                            dd_ciudad,
+                            ft.Text("Género"),
+                            radio_genero,
+                            ft.Divider(),
+                            ft.Text("Datos de Salud y Emergencia", weight=ft.FontWeight.BOLD, size=18),
+                            dd_tipo_sangre,
+                            txt_alergias,
+                            txt_contacto_emergencia,
+                            txt_telefono_emergencia,
+                            txt_seguridad_social,
+                            btn_enviar
+                        ],
+                        spacing=12,
+                        expand=True
+                    ),
+                    expand=2,
+                    bgcolor=ft.Colors.TRANSPARENT
+                ),
+                ft.Container(
+                    content=ft.Column(
+                        [
+                            titulo_registros,
+                            datos_guardados
+                        ],
+                        spacing=10
+                    ),
+                    expand=1,
+                    bgcolor=ft.Colors.TRANSPARENT
+                )
+            ],
+            expand=True
+        )
+    )
+
+
+ft.run(main)
+```
+
+
+##Ejecucion del codigo con datos correctos 
+<img width="1918" height="1017" alt="image" src="https://github.com/user-attachments/assets/bd5cac44-f258-4c66-a5c0-49c2d6aeb1cd" />
+<img width="1918" height="991" alt="image" src="https://github.com/user-attachments/assets/8225601b-2e83-45f3-8be6-7b3ccdcda4ec" />
+
+##Ejecucion del codigo con datos incorrectos
+<img width="1267" height="1008" alt="image" src="https://github.com/user-attachments/assets/663309e4-a8c2-4c24-bd5b-8e5175e07a99" />
+<img width="1412" height="677" alt="image" src="https://github.com/user-attachments/assets/cda29fee-5aa4-491c-8999-edb3788aea01" />
 
 
 
