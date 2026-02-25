@@ -295,7 +295,7 @@ Se crea un campo de texto para el nombre.
 -Solo acepta numeros y deben ser 5.
 
 ## Campos desplegables 
-es un elemento gráfico que muestra una lista de opciones para que el usuario seleccione una sola. Se utiliza para controlar el tipo de datos ingresados y mejorar la organización del formulario.
+Es un elemento gráfico que muestra una lista de opciones para que el usuario seleccione una sola. Se utiliza para controlar el tipo de datos ingresados y mejorar la organización del formulario.
 
 **Carrera**
 
@@ -353,5 +353,67 @@ Por lo tanto el programa automáticamente crea estas opciones en lugar de escrib
 
 -“6”
 
+**Campo ciudad**
+Este campo permite que el usuario seleccione la ciudad donde vive.
+```python
+    dd_ciudad = ft.Dropdown(
+        label="Ciudad donde vive *",
+        options=[
+            ft.dropdown.Option("Ciudad de México"),
+            ft.dropdown.Option("Guadalajara"),
+            ft.dropdown.Option("Monterrey"),
+            ft.dropdown.Option("Otras")
+        ]
+    )
 
+
+```
+
+## Botones de seleccion
+En esta formulario se utilizan lbotones de seleccion tipo radio, agrupados dentro de RadioGroup, lo cual permiten al usuario seleccionar una sola opcion entre varias disponibles cuando el usuario selecciona una opcion , automaticamente se deselecciona la otra, es decir, solo se puede elegir una opcion a la vez.
+
+```python
+    radio_genero = ft.RadioGroup(
+        content=ft.Column([
+            ft.Radio(label="Masculino", value="Masculino"),
+            ft.Radio(label="Femenino", value="Femenino"),
+        ])
+    )
+```
+Permite elegir solo una opcion del genero masculino o femenino
+
+**Tipo de sangre**
+Este bloque crea un campo desplegable (Dropdown) que permite al usuario seleccionar su tipo de sangre, el usuario no puede escribir manualmente el tipo de sangre, solo puede elegir una opción de la lista.
+```python
+    dd_tipo_sangre = ft.Dropdown(
+        label="Tipo de sangre *",
+        options=[
+            ft.dropdown.Option("A+"), ft.dropdown.Option("A-"),
+            ft.dropdown.Option("B+"), ft.dropdown.Option("B-"),
+            ft.dropdown.Option("O+"), ft.dropdown.Option("O-"),
+            ft.dropdown.Option("AB+"), ft.dropdown.Option("AB-")
+        ]
+    )
+```
+
+## Campos adicionales
+La validación en los campos adicionales se realiza mediante la función validar_campo(), la cual verifica que cada dato cumpla con el formato correspondiente (solo letras, solo números o cantidad exacta de dígitos). Además, cambia el color del campo para indicar visualmente si la información es correcta o incorrecta.
+**Eejemplo codigo**
+```python
+  txt_alergias = ft.TextField(label="Alergias o padecimientos", on_change=lambda e: validar_campo(txt_alergias, "alergias"))
+```
+Solo se valida si el usuario escribe algo.
+Permite:
+-Letras
+
+-Espacios
+
+-Comas
+Evitando que el usuario escriba caracteres incorrectos.
+
+```python
+    txt_contacto_emergencia = ft.TextField(label="Nombre de contacto de emergencia *", on_change=lambda e: validar_campo(txt_contacto_emergencia, "texto"))
+    txt_telefono_emergencia = ft.TextField(label="Teléfono de contacto de emergencia *", on_change=lambda e: validar_campo(txt_telefono_emergencia, "numeros", 10))
+    txt_seguridad_social = ft.TextField(label="Número de Seguridad Social (11 dígitos) *", on_change=lambda e: validar_campo(txt_seguridad_social, "numeros", 11))
+```
 
