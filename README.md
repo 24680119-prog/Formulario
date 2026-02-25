@@ -15,8 +15,8 @@ Esto significa que en lugar de escribir flet.TextField, se puede escribir ft.Tex
 Esta línea importa la librería re, que significa regular expressions (expresiones regulares).
 
 Las expresiones regulares se usan para validar textos, por ejemplo:
-•	Verificar que un nombre solo tenga letras.
+-Verificar que un nombre solo tenga letras.
   
-•	Comprobar que un correo tenga el formato correcto.
+-Comprobar que un correo tenga el formato correcto.
 
-•	Validar que un número tenga cierta cantidad de dígitos.
+-Validar que un número tenga cierta cantidad de dígitos.
