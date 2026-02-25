@@ -1,4 +1,5 @@
-##Formulario - Flet 
+## Formulario - Flet 
+
 Este código implementa un formulario de registro de estudiantes utilizando la librería Flet en Python, que permite crear interfaces gráficas interactivas similares a las de Flutter pero desde Python. El formulario captura datos personales, de salud y de contacto de emergencia, y muestra los registros guardados en tiempo real dentro de la misma ventana.
 
 ## Importacion de librerias 
