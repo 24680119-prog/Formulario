@@ -968,11 +968,11 @@ ft.run(main)
 ```
 
 
-##Ejecucion del codigo con datos correctos 
+## Ejecucion del codigo con datos correctos 
 <img width="1918" height="1017" alt="image" src="https://github.com/user-attachments/assets/bd5cac44-f258-4c66-a5c0-49c2d6aeb1cd" />
 
 
-##Ejecucion del codigo con datos incorrectos
+## Ejecucion del codigo con datos incorrectos
 <img width="1267" height="1008" alt="image" src="https://github.com/user-attachments/assets/663309e4-a8c2-4c24-bd5b-8e5175e07a99" />
 <img width="1412" height="677" alt="image" src="https://github.com/user-attachments/assets/cda29fee-5aa4-491c-8999-edb3788aea01" />
 
